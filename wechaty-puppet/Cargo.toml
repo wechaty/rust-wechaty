@@ -1,0 +1,24 @@
+[package]
+name = "wechaty-puppet"
+version = "0.1.0-beta.0"
+authors = ["Gabriel Wu <qqbbnease1004@126.com>"]
+edition = "2018"
+license = "Apache-2.0"
+description = "Rust implementation of wechaty-puppet"
+keywords = ["chatbot", "wechaty"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix = "0.11.0-beta.2"
+async-trait = "0.1"
+filebox = "0.1.0-beta.0"
+futures = "0.3"
+log = "0.4"
+lru = "0.6"
+num-derive = "0.3"
+num-traits = "0.2"
+serde = { version = "1.0", features = ["derive"] }
+serde_repr = "0.1"
+tokio-stream = "0.1"
+regex = "1"

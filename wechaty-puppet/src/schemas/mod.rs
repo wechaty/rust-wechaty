@@ -1,0 +1,11 @@
+pub mod contact;
+pub mod event;
+pub mod friendship;
+pub mod image;
+pub mod message;
+pub mod mini_program;
+pub mod payload;
+pub mod puppet;
+pub mod room;
+pub mod room_invitation;
+pub mod url_link;

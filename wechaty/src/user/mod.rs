@@ -1,0 +1,15 @@
+pub(crate) mod contact;
+pub(crate) mod contact_self;
+pub(crate) mod entity;
+pub(crate) mod favorite;
+pub(crate) mod friendship;
+pub(crate) mod image;
+pub(crate) mod location;
+pub(crate) mod message;
+pub(crate) mod mini_program;
+pub(crate) mod moment;
+pub(crate) mod money;
+pub(crate) mod room;
+pub(crate) mod room_invitation;
+pub(crate) mod tag;
+pub(crate) mod url_link;

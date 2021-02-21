@@ -1,0 +1,9 @@
+[workspace]
+
+members = [
+    "filebox",
+    "wechaty",
+    "wechaty-puppet",
+    "wechaty-puppet-service",
+    "wechaty-puppet-mock",
+]
