@@ -1,5 +1,5 @@
 [package]
-name = "wechaty-puppet"
+name = "wechaty_puppet"
 version = "0.1.0-beta.0"
 authors = ["Gabriel Wu <qqbbnease1004@126.com>"]
 edition = "2018"
@@ -12,7 +12,7 @@ keywords = ["chatbot", "wechaty"]
 [dependencies]
 actix = "0.11.0-beta.2"
 async-trait = "0.1"
-filebox = "0.1.0-beta.0"
+file-box = "0.1.0-beta.0"
 futures = "0.3"
 log = "0.4"
 lru = "0.6"
