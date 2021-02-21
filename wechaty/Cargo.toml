@@ -17,12 +17,11 @@ futures = "0.3"
 log = "0.4"
 tokio = "1.2"
 tokio-stream = "0.1"
-wechaty_puppet = { path = "../wechaty-puppet" }
+wechaty_puppet = "0.1.0-beta.0"
 
 [dev-dependencies]
 env_logger = "0.8"
-qr2term = "0.2"
-wechaty-puppet-service = { path = "../wechaty-puppet-service" }
+wechaty-puppet-service = "0.1.0-beta.0"
 
 [[example]]
 name = "ding-dong-bot"
