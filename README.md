@@ -41,7 +41,7 @@ See more at [Wiki:Voice Of Developer](https://github.com/Wechaty/wechaty/wiki/Vo
 ### Ding-dong bot
 
 ```shell
-export WECHATY_TOKEN=<your_token>
+export WECHATY_PUPPET_SERVICE_TOKEN=<your_token>
 export RUST_LOG=<error, warn, info, debug, trace>
 cargo run --example ding-dong-bot
 ```
