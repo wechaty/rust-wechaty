@@ -4,6 +4,7 @@ pub struct AsyncFnPtr<Payload, Context, Result> {
     func: Box<dyn Fn(Payload, Context) -> BoxFuture<'static, Result> + Send + 'static>,
 }
 
+#[allow(clippy::new_ret_no_self)]
 impl<Payload, Context, Result> AsyncFnPtr<Payload, Context, Result>
 where
     Payload: 'static,

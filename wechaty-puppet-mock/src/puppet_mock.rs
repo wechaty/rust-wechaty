@@ -5,6 +5,7 @@ use wechaty_puppet::*;
 pub struct PuppetMock {}
 
 #[allow(dead_code)]
+#[allow(unused_variables)]
 #[async_trait]
 impl PuppetImpl for PuppetMock {
     async fn contact_self_name_set(&self, name: String) -> Result<(), PuppetError> {

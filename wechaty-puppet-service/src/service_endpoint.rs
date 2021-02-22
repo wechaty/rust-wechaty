@@ -7,8 +7,8 @@ struct Endpoint {
     port: usize,
 }
 
-const WECHATY_ENDPOINT_RESOLUTION_SERVICE_URI: &'static str = "https://api.chatie.io/v0/hosties/";
-const ENDPOINT_SERVICE_ERROR: &'static str = "Endpoint service error";
+const WECHATY_ENDPOINT_RESOLUTION_SERVICE_URI: &str = "https://api.chatie.io/v0/hosties/";
+const ENDPOINT_SERVICE_ERROR: &str = "Endpoint service error";
 
 pub async fn discover(token: String) -> Result<String, PuppetError> {
     match reqwest::get(&format!("{}{}", WECHATY_ENDPOINT_RESOLUTION_SERVICE_URI, token)).await {

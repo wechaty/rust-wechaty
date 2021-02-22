@@ -32,18 +32,15 @@ where
         &mut self,
         handler: AsyncFnPtr<Payload, WechatyContext<T>, ()>,
         limit: Option<usize>,
-        handlers: Rc<RefCell<Vec<(AsyncFnPtr<Payload, WechatyContext<T>, ()>, usize)>>>,
+        handlers: HandlersPtr<T, Payload>,
         event_name: &'static str,
     ) -> (&mut Self, usize) {
-        match self.get_puppet().get_subscribe_addr().do_send(Subscribe {
+        if let Err(e) = self.get_puppet().get_subscribe_addr().do_send(Subscribe {
             addr: self.get_addr(),
             name: self.get_name(),
             event_name,
         }) {
-            Err(e) => {
-                error!("{} failed to subscribe to event {}: {}", self.get_name(), event_name, e);
-            }
-            Ok(_) => {}
+            error!("{} failed to subscribe to event {}: {}", self.get_name(), event_name, e);
         }
         let counter = handlers.borrow().len();
         let limit = match limit {
