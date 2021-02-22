@@ -4,7 +4,7 @@
 
 [![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-brightgreen.svg)](https://github.com/Wechaty/wechaty)
 
-Wechaty is a Conversational RPA SDK for Chatbot Makers that can help you create a bot in 9 lines of Rust.
+Wechaty is a Conversational RPA SDK for Chatbot Makers that can help you create a bot in Rust quickly.
 
 ## Voice of the Developers
 
