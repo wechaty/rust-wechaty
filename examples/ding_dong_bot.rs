@@ -13,7 +13,7 @@ async fn main() {
             Err(_) => None,
         },
         timeout: None,
-        token: match env::var("WECHATY_TOKEN") {
+        token: match env::var("WECHATY_PUPPET_SERVICE_TOKEN") {
             Ok(endpoint) => Some(endpoint),
             Err(_) => None,
         },
