@@ -9,7 +9,7 @@ pub mod types;
 
 pub use error::PuppetError;
 pub use events::PuppetEvent;
-pub use filebox::FileBox;
+pub use file_box::FileBox;
 pub use puppet::{Puppet, PuppetImpl, Subscribe, UnSubscribe};
 pub use schemas::contact::*;
 pub use schemas::event::*;

@@ -3,13 +3,12 @@ use std::sync::{Arc, Mutex};
 
 use actix::{Actor, Addr, Context, Handler, Message, Recipient};
 use async_trait::async_trait;
-use filebox::FileBox;
 use futures::StreamExt;
 use log::{debug, error, info};
 use lru::LruCache;
 
 use crate::{
-    ContactPayload, ContactQueryFilter, FriendshipPayload, FriendshipSearchQueryFilter, ImageType, MessagePayload,
+    ContactPayload, ContactQueryFilter, FileBox, FriendshipPayload, FriendshipSearchQueryFilter, ImageType, MessagePayload,
     MessageQueryFilter, MessageType, MiniProgramPayload, PayloadType, PuppetError, PuppetEvent, RoomInvitationPayload,
     RoomMemberPayload, RoomMemberQueryFilter, RoomPayload, RoomQueryFilter, UrlLinkPayload,
 };
