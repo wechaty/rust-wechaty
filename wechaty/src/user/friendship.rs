@@ -79,27 +79,25 @@ where
         debug!("Friendship.accept()");
         if !self.is_ready() {
             Err(WechatyError::NoPayload)
+        } else if self.friendship_type().unwrap() != FriendshipType::Receive {
+            Err(WechatyError::InvalidOperation(
+                "Can only accept a friendship of the Receive type".to_owned(),
+            ))
         } else {
-            if self.friendship_type().unwrap() != FriendshipType::Receive {
-                Err(WechatyError::InvalidOperation(
-                    "Can only accept a friendship of the Receive type".to_owned(),
-                ))
-            } else {
-                match self.ctx().puppet().friendship_accept(self.id()).await {
-                    Ok(_) => {
-                        let mut contact = self.contact().unwrap();
-                        contact.sync().await.unwrap_or_default();
-                        if contact.is_ready() {
-                            Ok(())
-                        } else {
-                            Err(WechatyError::Maybe(format!(
-                                "Failed to accept the friendship, contact: {}",
-                                contact
-                            )))
-                        }
+            match self.ctx().puppet().friendship_accept(self.id()).await {
+                Ok(_) => {
+                    let mut contact = self.contact().unwrap();
+                    contact.sync().await.unwrap_or_default();
+                    if contact.is_ready() {
+                        Ok(())
+                    } else {
+                        Err(WechatyError::Maybe(format!(
+                            "Failed to accept the friendship, contact: {}",
+                            contact
+                        )))
                     }
-                    Err(e) => Err(WechatyError::from(e)),
                 }
+                Err(e) => Err(WechatyError::from(e)),
             }
         }
     }

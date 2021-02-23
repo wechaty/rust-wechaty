@@ -26,15 +26,13 @@ impl PuppetService {
     pub async fn new(options: PuppetOptions) -> Result<Puppet<Self>, PuppetError> {
         let endpoint = if let Some(endpoint) = options.endpoint {
             endpoint
-        } else {
-            if let Some(token) = options.token {
-                match discover(token).await {
-                    Ok(endpoint) => endpoint,
-                    Err(e) => return Err(e),
-                }
-            } else {
-                return Err(PuppetError::InvalidToken);
+        } else if let Some(token) = options.token {
+            match discover(token).await {
+                Ok(endpoint) => endpoint,
+                Err(e) => return Err(e),
             }
+        } else {
+            return Err(PuppetError::InvalidToken);
         };
 
         match PuppetClient::connect(endpoint.clone()).await {
@@ -91,11 +89,8 @@ impl PuppetServiceInner {
     }
 
     fn emit(&self, msg: PuppetEvent) {
-        match self.callback_addr.as_ref().unwrap().do_send(msg) {
-            Err(e) => {
-                error!("Internal error: {}", e)
-            }
-            Ok(_) => {}
+        if let Err(e) = self.callback_addr.as_ref().unwrap().do_send(msg) {
+            error!("Internal error: {}", e)
         }
     }
 }
@@ -457,7 +452,7 @@ impl PuppetImpl for PuppetService {
             .await
         {
             Ok(response) => Ok(response.into_inner().ids),
-            Err(_) => Err(PuppetError::Network(format!("Failed to get tags"))),
+            Err(_) => Err(PuppetError::Network("Failed to get tags".to_owned())),
         }
     }
 
@@ -608,7 +603,7 @@ impl PuppetImpl for PuppetService {
         debug!("contact_list()");
         match self.client().contact_list(ContactListRequest {}).await {
             Ok(response) => Ok(response.into_inner().ids),
-            Err(_) => Err(PuppetError::Network(format!("Failed to get contacts"))),
+            Err(_) => Err(PuppetError::Network("Failed to get contacts".to_owned())),
         }
     }
 
@@ -1005,7 +1000,7 @@ impl PuppetImpl for PuppetService {
             .await
         {
             Ok(response) => Ok(response.into_inner().id),
-            Err(_) => Err(PuppetError::Network(format!("Failed to create room"))),
+            Err(_) => Err(PuppetError::Network("Failed to create room".to_owned())),
         }
     }
 
@@ -1087,7 +1082,7 @@ impl PuppetImpl for PuppetService {
         debug!("room_list()");
         match self.client().room_list(RoomListRequest {}).await {
             Ok(response) => Ok(response.into_inner().ids),
-            Err(_) => Err(PuppetError::Network(format!("Failed to get rooms"))),
+            Err(_) => Err(PuppetError::Network("Failed to get rooms".to_owned())),
         }
     }
 
@@ -1186,7 +1181,7 @@ impl PuppetImpl for PuppetService {
         debug!("start()");
         match self.client().start(StartRequest {}).await {
             Ok(_) => Ok(()),
-            Err(_) => Err(PuppetError::Network(format!("Failed to start puppet"))),
+            Err(_) => Err(PuppetError::Network("Failed to start puppet".to_owned())),
         }
     }
 
@@ -1194,7 +1189,7 @@ impl PuppetImpl for PuppetService {
         debug!("stop()");
         match self.client().stop(StopRequest {}).await {
             Ok(_) => Ok(()),
-            Err(_) => Err(PuppetError::Network(format!("Failed to stop puppet"))),
+            Err(_) => Err(PuppetError::Network("Failed to stop puppet".to_owned())),
         }
     }
 
@@ -1202,7 +1197,7 @@ impl PuppetImpl for PuppetService {
         debug!("ding(data = {})", data);
         match self.client().ding(DingRequest { data }).await {
             Ok(_) => Ok(()),
-            Err(_) => Err(PuppetError::Network(format!("Failed to ding"))),
+            Err(_) => Err(PuppetError::Network("Failed to ding".to_owned())),
         }
     }
 
@@ -1210,7 +1205,7 @@ impl PuppetImpl for PuppetService {
         debug!("version()");
         match self.client().version(VersionRequest {}).await {
             Ok(response) => Ok(response.into_inner().version),
-            Err(_) => Err(PuppetError::Network(format!("Failed to get puppet version"))),
+            Err(_) => Err(PuppetError::Network("Failed to get puppet version".to_owned())),
         }
     }
 
@@ -1218,7 +1213,7 @@ impl PuppetImpl for PuppetService {
         debug!("logout()");
         match self.client().logout(LogoutRequest {}).await {
             Ok(_) => Ok(()),
-            Err(_) => Err(PuppetError::Network(format!("Failed to logout"))),
+            Err(_) => Err(PuppetError::Network("Failed to logout".to_owned())),
         }
     }
 }

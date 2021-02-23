@@ -48,11 +48,11 @@ where
         match self.payload() {
             Some(payload) => {
                 if !payload.alias.is_empty() {
-                    payload.alias.clone()
+                    payload.alias
                 } else if !payload.name.is_empty() {
-                    payload.name.clone()
+                    payload.name
                 } else if !self.id().is_empty() {
-                    self.id().clone()
+                    self.id()
                 } else {
                     "loading...".to_owned()
                 }

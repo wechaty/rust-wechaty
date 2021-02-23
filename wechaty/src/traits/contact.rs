@@ -42,10 +42,7 @@ where
 
     fn is_ready(&self) -> bool {
         debug!("contact.is_ready(id = {})", self.id());
-        match self.payload() {
-            None => false,
-            Some(_) => true,
-        }
+        self.payload().is_some()
     }
 
     async fn ready(&mut self, force_sync: bool) -> Result<(), WechatyError> {

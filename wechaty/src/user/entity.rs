@@ -42,10 +42,7 @@ where
     /// Check if an entity is ready.
     pub(crate) fn is_ready(&self) -> bool {
         trace!("{}.is_ready(id = {})", Entity::<T, Payload>::type_name(), self.id_);
-        match self.payload_ {
-            None => false,
-            Some(_) => true,
-        }
+        self.payload_.is_some()
     }
 
     /// Get the Wechaty context.

@@ -9,6 +9,7 @@ pub enum FriendshipType {
     Verify,
 }
 
+#[allow(clippy::upper_case_acronyms)]
 #[derive(Debug, Clone, PartialEq, FromPrimitive, Deserialize_repr, Serialize_repr)]
 #[repr(i32)]
 pub enum FriendshipSceneType {

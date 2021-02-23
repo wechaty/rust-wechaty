@@ -8,9 +8,9 @@ use log::{debug, error, info};
 use lru::LruCache;
 
 use crate::{
-    ContactPayload, ContactQueryFilter, FileBox, FriendshipPayload, FriendshipSearchQueryFilter, ImageType, MessagePayload,
-    MessageQueryFilter, MessageType, MiniProgramPayload, PayloadType, PuppetError, PuppetEvent, RoomInvitationPayload,
-    RoomMemberPayload, RoomMemberQueryFilter, RoomPayload, RoomQueryFilter, UrlLinkPayload,
+    ContactPayload, ContactQueryFilter, FileBox, FriendshipPayload, FriendshipSearchQueryFilter, ImageType,
+    MessagePayload, MessageQueryFilter, MessageType, MiniProgramPayload, PayloadType, PuppetError, PuppetEvent,
+    RoomInvitationPayload, RoomMemberPayload, RoomMemberQueryFilter, RoomPayload, RoomQueryFilter, UrlLinkPayload,
 };
 
 const DEFAULT_CONTACT_CACHE_CAP: usize = 3000;
@@ -95,11 +95,8 @@ impl PuppetInner {
 
     fn notify(&self, msg: PuppetEvent, subscribers: SubscribersPtr) {
         for (name, subscriber) in subscribers.lock().unwrap().clone() {
-            match subscriber.do_send(msg.clone()) {
-                Err(e) => {
-                    error!("Failed to notify {} : {}", name, e);
-                }
-                Ok(_) => {}
+            if let Err(e) = subscriber.do_send(msg.clone()) {
+                error!("Failed to notify {} : {}", name, e);
             }
         }
     }
@@ -288,15 +285,12 @@ where
 
     pub fn self_id(self) -> Option<String> {
         debug!("self_id()");
-        self.id.clone()
+        self.id
     }
 
     pub fn log_on_off(self) -> bool {
         debug!("log_on_off()");
-        match self.id {
-            Some(_) => true,
-            None => false,
-        }
+        self.id.is_some()
     }
 
     /*
@@ -420,7 +414,7 @@ where
             .into_iter()
             .filter_map(|payload| {
                 if filter(payload.clone()) {
-                    Some(payload.id.clone())
+                    Some(payload.id)
                 } else {
                     None
                 }
@@ -887,7 +881,7 @@ where
             .into_iter()
             .filter_map(|payload| {
                 if filter(payload.clone()) {
-                    Some(payload.id.clone())
+                    Some(payload.id)
                 } else {
                     None
                 }
@@ -983,7 +977,7 @@ where
             .into_iter()
             .filter_map(|payload| {
                 if filter(payload.clone()) {
-                    Some(payload.id.clone())
+                    Some(payload.id)
                 } else {
                     None
                 }
