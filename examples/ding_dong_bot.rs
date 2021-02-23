@@ -8,12 +8,12 @@ use wechaty_puppet_service::PuppetService;
 async fn main() {
     env_logger::init();
     let options = PuppetOptions {
-        endpoint: match env::var("WECHATY_ENDPOINT") {
+        endpoint: match env::var("WECHATY_PUPPET_SERVICE_ENDPOINT") {
             Ok(endpoint) => Some(endpoint),
             Err(_) => None,
         },
         timeout: None,
-        token: match env::var("WECHATY_TOKEN") {
+        token: match env::var("WECHATY_PUPPET_SERVICE_TOKEN") {
             Ok(endpoint) => Some(endpoint),
             Err(_) => None,
         },

@@ -6,7 +6,7 @@
 
 [![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-brightgreen.svg)](https://github.com/Wechaty/wechaty)
 
-Wechaty is a Conversational SDK for Chatbot Makers that can help you create a bot in 9 lines of Python.
+Wechaty is a Conversational RPA SDK for Chatbot Makers that can help you create a bot in Rust quickly.
 
 ## Voice of the Developers
 
@@ -40,7 +40,7 @@ Scan now, because other Wechaty Rust developers want to talk to you too! (secret
 ### Ding-dong bot
 
 ```shell
-export WECHATY_TOKEN=<your_token>
+export WECHATY_PUPPET_SERVICE_TOKEN=<your_token>
 export RUST_LOG=<error, warn, info, debug, trace>
 cargo run --example ding-dong-bot
 ```
