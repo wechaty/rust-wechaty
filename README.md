@@ -56,10 +56,10 @@ cargo run --example ding-dong-bot
 
 ## Badge
 
-[![Wechaty in Rust](https://img.shields.io/badge/Wechaty-Rust-blue)](https://github.com/wechaty/rust-wechaty)
+[![Wechaty in Rust](https://img.shields.io/badge/Wechaty-Rust-f42)](https://github.com/wechaty/rust-wechaty)
 
 ```md
-[![Wechaty in Rust](https://img.shields.io/badge/Wechaty-Rust-blue)](https://github.com/wechaty/rust-wechaty)
+[![Wechaty in Rust](https://img.shields.io/badge/Wechaty-Rust-f42)](https://github.com/wechaty/rust-wechaty)
 ```
 
 ## Stargazers over time
