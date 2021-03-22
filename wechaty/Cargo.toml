@@ -1,6 +1,6 @@
 [package]
 name = "wechaty"
-version = "0.1.0-beta.0"
+version = "0.1.0-beta.1"
 authors = ["Gabriel Wu <qqbbnease1004@126.com>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -17,11 +17,11 @@ futures = "0.3"
 log = "0.4"
 tokio = "1.2"
 tokio-stream = "0.1"
-wechaty_puppet = "0.1.0-beta.0"
+wechaty_puppet = "0.1.0-beta.1"
 
 [dev-dependencies]
 env_logger = "0.8"
-wechaty-puppet-service = "0.1.0-beta.0"
+wechaty-puppet-service = "0.1.0-beta.1"
 
 [[example]]
 name = "ding-dong-bot"
