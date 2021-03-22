@@ -1,6 +1,6 @@
 [package]
 name = "wechaty-puppet-mock"
-version = "0.1.0-beta.0"
+version = "0.1.0-beta.1"
 authors = ["Gabriel Wu <qqbbnease1004@126.com>"]
 edition = "2018"
 license = "Apache-2.0"
@@ -12,4 +12,4 @@ keywords = ["chatbot", "wechaty"]
 [dependencies]
 actix = "0.11"
 async-trait = "0.1"
-wechaty_puppet = "0.1.0-beta.0"
+wechaty_puppet = "0.1.0-beta.1"
