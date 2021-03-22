@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::future::Future;
 use std::rc::Rc;
 
-use actix::{Actor, ActorFuture, AtomicResponse, Context, Handler, Recipient, WrapFuture};
+use actix::{Actor, ActorFutureExt, AtomicResponse, Context, Handler, Recipient, WrapFuture};
 use log::{error, info};
 use wechaty_puppet::{
     AsyncFnPtr, EventDongPayload, EventErrorPayload, EventFriendshipPayload, EventHeartbeatPayload, EventLoginPayload,
