@@ -4,7 +4,7 @@ use std::time::SystemTime;
 use log::{debug, error, info};
 use wechaty_puppet::{FileBox, MessagePayload, MessageType, MiniProgramPayload, PuppetImpl, UrlLinkPayload};
 
-use crate::{Contact, Entity, IntoContact, Room, WechatyContext, WechatyError};
+use crate::{Contact, Entity, IntoContact, Room, Talkable, WechatyContext, WechatyError};
 
 pub type Message<T> = Entity<T, MessagePayload>;
 

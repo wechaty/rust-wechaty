@@ -3,7 +3,7 @@ use std::fmt;
 use log::{debug, error};
 use wechaty_puppet::{ContactPayload, FileBox, PuppetImpl};
 
-use crate::{Contact, IntoContact, WechatyContext, WechatyError};
+use crate::{Contact, IntoContact, Talkable, WechatyContext, WechatyError};
 
 #[derive(Clone)]
 pub struct ContactSelf<T>
@@ -113,7 +113,7 @@ where
     }
 }
 
-impl<T> IntoContact<T> for ContactSelf<T>
+impl<T> Talkable<T> for ContactSelf<T>
 where
     T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
 {
@@ -128,7 +128,12 @@ where
     fn identity(&self) -> String {
         self.contact.identity()
     }
+}
 
+impl<T> IntoContact<T> for ContactSelf<T>
+where
+    T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
+{
     fn payload(&self) -> Option<ContactPayload> {
         self.contact.payload()
     }

@@ -125,7 +125,7 @@ impl Handler<PuppetServiceInternalMessage> for PuppetServiceInner {
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(rename_all = "camelCase")]
 struct EventPayload {
-    pub data: Option<String>,
+    pub data: Option<serde_json::Value>,
     pub contact_id: Option<String>,
     pub message_id: Option<String>,
     pub room_invitation_id: Option<String>,
@@ -149,8 +149,8 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
     fn handle(&mut self, item: Result<EventResponse, Status>, _ctx: &mut Self::Context) {
         match item {
             Ok(response) => {
-                let payload: EventPayload = from_str(&response.payload).unwrap();
                 info!("Receive event response, {:?}", response);
+                let payload: EventPayload = from_str(&response.payload).unwrap();
 
                 match response.r#type {
                     0 => {
@@ -161,9 +161,15 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
                         if payload.data == None {
                             error!("Heartbeat payload should have data");
                         } else {
-                            self.emit(PuppetEvent::Heartbeat(EventHeartbeatPayload {
-                                data: payload.data.unwrap(),
-                            }));
+                            let data = match payload.data.unwrap() {
+                                serde_json::Value::String(data) => data,
+                                object @ serde_json::Value::Object(_) => object.to_string(),
+                                _ => {
+                                    error!("Heartbeat payload should have string or object data");
+                                    return;
+                                }
+                            };
+                            self.emit(PuppetEvent::Heartbeat(EventHeartbeatPayload { data }))
                         }
                     }
                     2 => {
@@ -180,20 +186,20 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
                         // Dong
                         if payload.data == None {
                             error!("Dong payload should have data");
+                        } else if let serde_json::Value::String(data) = payload.data.unwrap() {
+                            self.emit(PuppetEvent::Dong(EventDongPayload { data }));
                         } else {
-                            self.emit(PuppetEvent::Dong(EventDongPayload {
-                                data: payload.data.unwrap(),
-                            }));
+                            error!("Dong payload should have string data");
                         }
                     }
                     16 => {
                         // Error
                         if payload.data == None {
                             error!("Error payload should have data");
+                        } else if let serde_json::Value::String(data) = payload.data.unwrap() {
+                            self.emit(PuppetEvent::Error(EventErrorPayload { data }));
                         } else {
-                            self.emit(PuppetEvent::Error(EventErrorPayload {
-                                data: payload.data.unwrap(),
-                            }));
+                            error!("Error payload should have string data");
                         }
                     }
                     17 => {
@@ -277,7 +283,10 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
                             self.emit(PuppetEvent::Scan(EventScanPayload {
                                 status: payload.status.unwrap(),
                                 qrcode: payload.qrcode,
-                                data: payload.data,
+                                data: payload
+                                    .data
+                                    .map(|value| value.as_str().map(|s| s.to_string()))
+                                    .flatten(),
                             }));
                         }
                     }
@@ -285,20 +294,20 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
                         // Ready
                         if payload.data == None {
                             error!("Ready payload should have data");
+                        } else if let serde_json::Value::String(data) = payload.data.unwrap() {
+                            self.emit(PuppetEvent::Ready(EventReadyPayload { data }));
                         } else {
-                            self.emit(PuppetEvent::Ready(EventReadyPayload {
-                                data: payload.data.unwrap(),
-                            }));
+                            error!("Ready payload should have string data");
                         }
                     }
                     24 => {
                         // Reset
                         if payload.data == None {
                             error!("Reset payload should have data");
+                        } else if let serde_json::Value::String(data) = payload.data.unwrap() {
+                            self.emit(PuppetEvent::Reset(EventResetPayload { data }));
                         } else {
-                            self.emit(PuppetEvent::Reset(EventResetPayload {
-                                data: payload.data.unwrap(),
-                            }));
+                            error!("Reset payload should have string data");
                         }
                     }
                     25 => {
@@ -315,11 +324,13 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
                         // Log out
                         if payload.contact_id == None || payload.data == None {
                             error!("Logout payload should have contact id and data");
-                        } else {
+                        } else if let serde_json::Value::String(data) = payload.data.unwrap() {
                             self.emit(PuppetEvent::Logout(EventLogoutPayload {
                                 contact_id: payload.contact_id.unwrap(),
-                                data: payload.data.unwrap(),
+                                data,
                             }));
+                        } else {
+                            error!("Reset payload should have string data");
                         }
                     }
                     27 => {

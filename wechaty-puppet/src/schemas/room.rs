@@ -1,6 +1,6 @@
 use regex::Regex;
 
-#[derive(Debug, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct RoomMemberQueryFilter {
     pub name: Option<String>,
     pub room_alias: Option<String>,
@@ -8,7 +8,7 @@ pub struct RoomMemberQueryFilter {
     pub room_alias_regex: Option<Regex>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct RoomQueryFilter {
     pub id: Option<String>,
     pub topic: Option<String>,

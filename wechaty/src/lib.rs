@@ -14,6 +14,7 @@ pub use crate::payload::*;
 pub use crate::traits::contact::IntoContact;
 pub use crate::traits::event_listener::EventListener;
 pub(crate) use crate::traits::event_listener::EventListenerInner;
+pub use crate::traits::talkable::Talkable;
 pub use crate::user::contact::Contact;
 pub use crate::user::contact_self::ContactSelf;
 pub(crate) use crate::user::entity::Entity;
@@ -40,6 +41,7 @@ pub mod prelude {
     pub use crate::payload::*;
     pub use crate::traits::contact::IntoContact;
     pub use crate::traits::event_listener::EventListener;
+    pub use crate::traits::talkable::Talkable;
     pub use crate::user::contact::Contact;
     pub use crate::user::contact_self::ContactSelf;
     pub use crate::user::favorite::Favorite;

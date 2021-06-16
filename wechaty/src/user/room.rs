@@ -1,9 +1,10 @@
 use std::fmt;
 
-use log::{debug, error};
+use async_trait::async_trait;
+use log::{debug, error, trace};
 use wechaty_puppet::{PayloadType, PuppetImpl, RoomMemberQueryFilter, RoomPayload};
 
-use crate::{Contact, Entity, WechatyContext, WechatyError};
+use crate::{Contact, Entity, Talkable, WechatyContext, WechatyError};
 
 pub type Room<T> = Entity<T, RoomPayload>;
 
@@ -95,6 +96,37 @@ where
     }
 }
 
+#[async_trait]
+impl<T> Talkable<T> for Room<T>
+where
+    T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
+{
+    fn id(&self) -> String {
+        trace!("Room.id(id = {})", self.id_);
+        self.id_.clone()
+    }
+
+    fn ctx(&self) -> WechatyContext<T> {
+        trace!("Room.id(id = {})", self.id_);
+        self.ctx_.clone()
+    }
+
+    fn identity(&self) -> String {
+        match &self.payload_ {
+            Some(payload) => {
+                if !payload.topic.is_empty() {
+                    payload.topic.clone()
+                } else if !self.id_.is_empty() {
+                    self.id_.clone()
+                } else {
+                    "loading...".to_owned()
+                }
+            }
+            None => "loading...".to_owned(),
+        }
+    }
+}
+
 impl<T> fmt::Debug for Room<T>
 where
     T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
@@ -109,18 +141,6 @@ where
     T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
 {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let room_info = match &self.payload_ {
-            Some(payload) => {
-                if !payload.topic.is_empty() {
-                    payload.topic.clone()
-                } else if !self.id_.is_empty() {
-                    self.id_.clone()
-                } else {
-                    "loading...".to_owned()
-                }
-            }
-            None => "loading...".to_owned(),
-        };
-        write!(fmt, "{}", room_info)
+        write!(fmt, "{}", self.identity())
     }
 }

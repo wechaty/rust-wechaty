@@ -39,7 +39,7 @@ pub struct FriendshipPayload {
     pub friendship_type: FriendshipType,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct FriendshipSearchQueryFilter {
     pub phone: Option<String>,
     pub weixin: Option<String>,

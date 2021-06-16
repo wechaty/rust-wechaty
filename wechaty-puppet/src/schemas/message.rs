@@ -87,7 +87,7 @@ pub struct MessagePayload {
     pub to_id: String,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Default, Debug, Clone)]
 pub struct MessageQueryFilter {
     pub from_id: Option<String>,
     pub id: Option<String>,
