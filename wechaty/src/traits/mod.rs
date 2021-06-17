@@ -3,9 +3,9 @@ pub(crate) mod event_listener;
 pub(crate) mod talkable;
 
 use log::{error, info};
+use wechaty_puppet::PuppetImpl;
 
 use crate::{Message, WechatyContext, WechatyError};
-use wechaty_puppet::PuppetImpl;
 
 async fn message_load<T>(
     ctx: WechatyContext<T>,

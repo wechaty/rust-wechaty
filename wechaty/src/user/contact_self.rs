@@ -21,10 +21,7 @@ where
         debug!("create contact self {}", id);
         let payload = match payload {
             Some(_) => payload,
-            None => match ctx.contacts().get(&id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            },
+            None => ctx.contacts().get(&id).cloned(),
         };
         Self {
             contact: Contact::new(id, ctx, payload),

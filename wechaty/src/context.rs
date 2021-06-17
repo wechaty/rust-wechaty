@@ -86,13 +86,7 @@ where
     /// try to fetch from the puppet instead.
     pub(crate) async fn contact_load(&self, contact_id: String) -> Result<Contact<T>, WechatyError> {
         debug!("contact_load(query = {})", contact_id);
-
-        let payload = {
-            match self.contacts().get(&contact_id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            }
-        };
+        let payload = self.contacts().get(&contact_id).cloned();
         match payload {
             Some(payload) => Ok(Contact::new(contact_id.clone(), self.clone(), Some(payload))),
             None => {
@@ -191,12 +185,7 @@ where
     /// try to fetch from the puppet instead.
     pub(crate) async fn message_load(&self, message_id: String) -> Result<Message<T>, WechatyError> {
         debug!("message_load(query = {})", message_id);
-        let payload = {
-            match self.messages().get(&message_id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            }
-        };
+        let payload = self.messages().get(&message_id).cloned();
         match payload {
             Some(payload) => Ok(Message::new(message_id.clone(), self.clone(), Some(payload))),
             None => {
@@ -263,12 +252,7 @@ where
         if !self.is_logged_in() {
             return Err(WechatyError::NotLoggedIn);
         }
-        let payload = {
-            match self.rooms().get(&room_id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            }
-        };
+        let payload = self.rooms().get(&room_id).cloned();
         match payload {
             Some(payload) => Ok(Room::new(room_id.clone(), self.clone(), Some(payload))),
             None => {
@@ -363,12 +347,7 @@ where
         if !self.is_logged_in() {
             return Err(WechatyError::NotLoggedIn);
         }
-        let payload = {
-            match self.friendships().get(&friendship_id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            }
-        };
+        let payload = self.friendships().get(&friendship_id).cloned();
         match payload {
             Some(payload) => Ok(Friendship::new(friendship_id.clone(), self.clone(), Some(payload))),
             None => {

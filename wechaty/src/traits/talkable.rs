@@ -1,10 +1,9 @@
 use async_trait::async_trait;
 use log::{debug, error};
+use wechaty_puppet::{FileBox, MiniProgramPayload, PuppetImpl, UrlLinkPayload};
 
 use super::message_load;
 use crate::{Message, WechatyContext, WechatyError};
-
-use wechaty_puppet::{FileBox, MiniProgramPayload, PuppetImpl, UrlLinkPayload};
 
 #[async_trait]
 pub trait Talkable<T>

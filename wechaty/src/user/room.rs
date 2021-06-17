@@ -16,10 +16,7 @@ where
         debug!("create room {}", id);
         let payload = match payload {
             Some(_) => payload,
-            None => match ctx.rooms().get(&id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            },
+            None => ctx.rooms().get(&id).cloned(),
         };
         Self {
             id_: id,

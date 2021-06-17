@@ -22,7 +22,7 @@ where
     pub fn new(puppet: Puppet<T>) -> Self {
         let listener = EventListenerInner::new("Wechaty".to_owned(), WechatyContext::new(puppet.clone()));
         let addr = listener.clone().start();
-        Self { puppet, addr, listener }
+        Self { puppet, listener, addr }
     }
 
     pub async fn start(&self) {

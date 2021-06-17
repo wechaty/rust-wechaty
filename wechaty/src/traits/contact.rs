@@ -1,8 +1,8 @@
 use async_trait::async_trait;
 use log::{debug, error};
+use wechaty_puppet::{ContactGender, ContactPayload, PayloadType, PuppetImpl};
 
 use crate::{Talkable, WechatyError};
-use wechaty_puppet::{ContactGender, ContactPayload, PayloadType, PuppetImpl};
 
 #[async_trait]
 pub trait IntoContact<T>: Talkable<T>
@@ -51,58 +51,37 @@ where
 
     fn name(&self) -> Option<String> {
         debug!("contact.name(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.name.clone()),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.name.clone())
     }
 
     fn gender(&self) -> Option<ContactGender> {
         debug!("contact.gender(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.gender.clone()),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.gender.clone())
     }
 
     fn province(&self) -> Option<String> {
         debug!("contact.province(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.province.clone()),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.province.clone())
     }
 
     fn city(&self) -> Option<String> {
         debug!("contact.city(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.city.clone()),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.city.clone())
     }
 
     fn friend(&self) -> Option<bool> {
         debug!("contact.friend(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.friend),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.friend)
     }
 
     fn star(&self) -> Option<bool> {
         debug!("contact.star(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.star),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.star)
     }
 
     fn alias(&self) -> Option<String> {
         debug!("contact.alias(id = {})", self.id());
-        match &self.payload() {
-            Some(payload) => Some(payload.alias.clone()),
-            None => None,
-        }
+        self.payload().as_ref().map(|payload| payload.alias.clone())
     }
 
     async fn set_alias(&mut self, new_alias: String) -> Result<(), WechatyError> {

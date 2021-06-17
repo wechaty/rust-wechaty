@@ -16,10 +16,7 @@ where
         debug!("create message {}", id);
         let payload = match payload {
             Some(_) => payload,
-            None => match ctx.messages().get(&id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            },
+            None => ctx.messages().get(&id).cloned(),
         };
         Self {
             id_: id,
@@ -151,10 +148,7 @@ where
     /// Get message's timestamp.
     pub fn timestamp(&self) -> Option<u64> {
         debug!("Message.timestamp(id = {})", self.id_);
-        match &self.payload_ {
-            Some(payload) => Some(payload.timestamp),
-            None => None,
-        }
+        self.payload_.as_ref().map(|payload| payload.timestamp)
     }
 
     /// Get message's age in seconds.
@@ -176,19 +170,13 @@ where
     /// Get the message type.
     pub fn message_type(&self) -> Option<MessageType> {
         debug!("Message.message_type(id = {})", self.id_);
-        match &self.payload_ {
-            Some(payload) => Some(payload.message_type.clone()),
-            None => None,
-        }
+        self.payload_.as_ref().map(|payload| payload.message_type.clone())
     }
 
     /// Get the message's text content, if it is a text message.
     pub fn text(&self) -> Option<String> {
         debug!("Message.text(id = {})", self.id_);
-        match &self.payload_ {
-            Some(payload) => Some(payload.text.clone()),
-            None => None,
-        }
+        self.payload_.as_ref().map(|payload| payload.text.clone())
     }
 
     /// Get the trimmed version (no mentions) of the message's text content.

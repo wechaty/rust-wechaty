@@ -15,10 +15,7 @@ where
         debug!("create friendship {}", id);
         let payload = match payload {
             Some(_) => payload,
-            None => match ctx.friendships().get(&id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            },
+            None => ctx.friendships().get(&id).cloned(),
         };
         Self {
             id_: id,
@@ -53,10 +50,7 @@ where
     /// Get friendship's type.
     pub fn friendship_type(&self) -> Option<FriendshipType> {
         debug!("Friendship.friendship_type(id = {})", self.id_);
-        match &self.payload_ {
-            Some(payload) => Some(payload.friendship_type.clone()),
-            None => None,
-        }
+        self.payload_.as_ref().map(|payload| payload.friendship_type.clone())
     }
 
     /// Get friendship's contact.
