@@ -330,7 +330,7 @@ impl StreamHandler<Result<EventResponse, Status>> for PuppetServiceInner {
                                 data,
                             }));
                         } else {
-                            error!("Reset payload should have string data");
+                            error!("Logout payload should have string data");
                         }
                     }
                     27 => {
