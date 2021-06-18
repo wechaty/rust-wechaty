@@ -4,7 +4,7 @@ use log::{debug, trace};
 use wechaty_puppet::{ContactPayload, PuppetImpl};
 
 use crate::user::entity::Entity;
-use crate::{IntoContact, WechatyContext};
+use crate::{IntoContact, Talkable, WechatyContext};
 
 pub type Contact<T> = Entity<T, ContactPayload>;
 
@@ -16,10 +16,7 @@ where
         debug!("create contact {}", id);
         let payload = match payload {
             Some(_) => payload,
-            None => match ctx.contacts().get(&id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            },
+            None => ctx.contacts().get(&id).cloned(),
         };
         Self {
             id_: id,
@@ -29,7 +26,7 @@ where
     }
 }
 
-impl<T> IntoContact<T> for Contact<T>
+impl<T> Talkable<T> for Contact<T>
 where
     T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
 {
@@ -60,7 +57,12 @@ where
             None => "loading...".to_owned(),
         }
     }
+}
 
+impl<T> IntoContact<T> for Contact<T>
+where
+    T: 'static + PuppetImpl + Clone + Unpin + Send + Sync,
+{
     fn payload(&self) -> Option<ContactPayload> {
         trace!("Contact.payload(id = {})", self.id_);
         self.payload_.clone()

@@ -15,10 +15,7 @@ where
         debug!("create room invitation {}", id);
         let payload = match payload {
             Some(_) => payload,
-            None => match ctx.room_invitations().get(&id) {
-                Some(payload) => Some(payload.clone()),
-                None => None,
-            },
+            None => ctx.room_invitations().get(&id).cloned(),
         };
         Self {
             id_: id,
